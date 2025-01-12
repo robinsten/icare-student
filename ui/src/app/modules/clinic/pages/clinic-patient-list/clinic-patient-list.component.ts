@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { SystemSettingsService } from "src/app/core/services/system-settings.service";
 import { GoogleAnalyticsService } from "src/app/google-analytics.service";
 import { PatientHistoryDialogComponent } from "src/app/shared/dialogs/patient-history-dialog/patient-history-dialog.component";
+import { StockOutItemsComponent } from "src/app/shared/store-components/stock-out-items/stock-out-items.component";
 import { go } from "src/app/store/actions";
 import { AppState } from "src/app/store/reducers";
 import {
@@ -21,7 +22,7 @@ import { getCurrentUserPrivileges } from "src/app/store/selectors/current-user.s
 })
 export class ClinicPatientListComponent implements OnInit {
   currentLocation$: Observable<any>;
-  selectedTab = new UntypedFormControl(0);
+  selectedTab = new UntypedFormControl(5); //This is the one responsible for the Tab
   settingCurrentLocationStatus$: Observable<boolean>;
   consultationOrderType$: Observable<any>;
   consultationEncounterType$: Observable<any>;
@@ -38,10 +39,17 @@ export class ClinicPatientListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    
     this.currentLocation$ = this.store.pipe(select(getCurrentLocation(false)));
     this.settingCurrentLocationStatus$ = this.store.select(
       getSettingCurrentLocationStatus
     );
+
+    this.showAllPatientsTab$ =
+    this.systemSettingsService.getSystemSettingsDetailsByKey(
+      `iCare.clinic.settings.patientsListGroups.showAllPatientsTab`
+    );
+    
 
     this.consultationOrderType$ =
       this.systemSettingsService.getSystemSettingsByKey(
@@ -62,11 +70,10 @@ export class ClinicPatientListComponent implements OnInit {
     this.labTestOrderType$ = this.systemSettingsService.getSystemSettingsByKey(
       "iCare.clinic.laboratory.labTestOrderType"
     );
-    this.showAllPatientsTab$ =
-      this.systemSettingsService.getSystemSettingsDetailsByKey(
-        `iCare.clinic.settings.patientsListGroups.showAllPatientsTab`
-      );
+   
     this.userPrivileges$ = this.store.select(getCurrentUserPrivileges);
+    setTimeout(() => { this.changeTab(6); }, 500);
+    
   }
 
   onSelectPatient(patient: any) {

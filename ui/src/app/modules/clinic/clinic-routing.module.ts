@@ -11,7 +11,7 @@ const routes: Routes = [
     component: PatientHomeComponent,
     children: [
       { path: "", redirectTo: "patient-list", pathMatch: "full" },
-      { path: "patient-list", component: ClinicPatientListComponent },
+      { path: "patient-list", component: ClinicPatientListComponent }, //This is the Path that creates the bug
       {
         path: "patient-dashboard/:patientID",
         component: PatientDashboardComponent,
