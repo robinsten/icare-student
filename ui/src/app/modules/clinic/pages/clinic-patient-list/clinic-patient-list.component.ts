@@ -22,7 +22,7 @@ import { getCurrentUserPrivileges } from "src/app/store/selectors/current-user.s
 })
 export class ClinicPatientListComponent implements OnInit {
   currentLocation$: Observable<any>;
-  selectedTab = new UntypedFormControl(5); //This is the one responsible for the Tab
+  selectedTab = new UntypedFormControl(6); //This is the one responsible for the Tab
   settingCurrentLocationStatus$: Observable<boolean>;
   consultationOrderType$: Observable<any>;
   consultationEncounterType$: Observable<any>;
